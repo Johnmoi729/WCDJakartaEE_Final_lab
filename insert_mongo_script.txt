@@ -1,0 +1,81 @@
+use player_evaluation
+
+// Insert index types
+db.indexer.insertMany([
+  { name: "speed", valueMin: 10, valueMax: 100 },
+  { name: "strength", valueMin: 0, valueMax: 10 },
+  { name: "accurate", valueMin: 0, valueMax: 1 }
+])
+
+// Get index IDs for reference
+var speedId = db.indexer.findOne({name: "speed"})._id
+var strengthId = db.indexer.findOne({name: "strength"})._id
+var accurateId = db.indexer.findOne({name: "accurate"})._id
+
+// Insert players (removed the redundant index_id field)
+db.player.insertMany([
+  {
+    name: "JohnDoe",
+    full_name: "John Doe",
+    age: "25"
+  },
+  {
+    name: "JaneSmith",
+    full_name: "Jane Smith",
+    age: "23"
+  },
+  {
+    name: "MikeJohnson",
+    full_name: "Mike Johnson",
+    age: "28"
+  }
+])
+
+// Insert player index values
+db.player_index.insertMany([
+  {
+    player_id: db.player.findOne({name: "JohnDoe"})._id,
+    index_id: speedId,
+    value: 85
+  },
+  {
+    player_id: db.player.findOne({name: "JohnDoe"})._id,
+    index_id: strengthId,
+    value: 8
+  },
+  {
+    player_id: db.player.findOne({name: "JohnDoe"})._id,
+    index_id: accurateId,
+    value: 0.9
+  },
+  {
+    player_id: db.player.findOne({name: "JaneSmith"})._id,
+    index_id: speedId,
+    value: 75
+  },
+  {
+    player_id: db.player.findOne({name: "JaneSmith"})._id,
+    index_id: strengthId,
+    value: 9
+  },
+  {
+    player_id: db.player.findOne({name: "JaneSmith"})._id,
+    index_id: accurateId,
+    value: 0.8
+  },
+  {
+    player_id: db.player.findOne({name: "MikeJohnson"})._id,
+    index_id: speedId,
+    value: 65
+  },
+  {
+    player_id: db.player.findOne({name: "MikeJohnson"})._id,
+    index_id: strengthId,
+    value: 7
+  },
+  {
+    player_id: db.player.findOne({name: "MikeJohnson"})._id,
+    index_id: accurateId,
+    value: 0.95
+  }
+])
